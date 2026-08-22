@@ -3,11 +3,11 @@ title: "Composite Indices Are Policies, Not Measures"
 message: "If you use this software or its findings, please cite it."
 type: software
 authors:
-  - family-names: "Lawler"
+  - family-names: "Lam"
     given-names: "Brendan"
-    email: "15bnl@queensu.ca"
-    affiliation: "Queen's University"
-repository-code: "https://github.com/USERNAME/composite-indices-as-policies"
+    email: "brendannathanlam@hotmail.com"
+    affiliation: "Yale University"
+repository-code: "https://github.com/blam3/composite-indices-as-policies"
 abstract: >-
   Tools and analyses treating area-level allocation composites such as the
   CDC/ATSDR Social Vulnerability Index as policies rather than measures.

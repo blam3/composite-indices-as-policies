@@ -1,0 +1,247 @@
+{
+  "deterministic": {
+    "meta": {
+      "state": "Louisiana",
+      "state_fips": "22",
+      "acs": "2018-2022 5-year VRT, summary level 140",
+      "svi_edition": "CDC/ATSDR SVI 2022",
+      "n_tracts_vrt": 1388,
+      "n_tracts_cdc": 1379,
+      "n_tracts_dropped_water": 9,
+      "n_components": 19,
+      "n_svi_inputs": 16
+    },
+    "reproduction": {
+      "values_compared": 57368,
+      "values_exact": 57368,
+      "pct_exact": 100,
+      "cells_compared": 57918,
+      "missingness_match": 57918,
+      "values_ok": true,
+      "missing_ok": true
+    },
+    "se_ratio_povQ5_over_povQ1": {
+      "POV150": 2.2211,
+      "UNEMP": 2.3865,
+      "HBURD": 1.5204,
+      "NOHSDP": 2.1878,
+      "UNINSUR": 1.522,
+      "AGE65": 1.015,
+      "AGE17": 1.3892,
+      "DISABL": 1.3582,
+      "SNGPNT": 1.9171,
+      "LIMENG": 1.3971,
+      "MINRTY": 0.8495,
+      "MUNIT": 1.6283,
+      "MOBILE": 1.0291,
+      "CROWD": 2.3793,
+      "NOVEH": 2.9342,
+      "GROUPQ": 3.0884
+    }
+  },
+  "monte_carlo": {
+    "meta": {
+      "B_draws": 5000,
+      "seed": 20260818,
+      "R_version": "R version 4.3.3 (2024-02-29)",
+      "designs": {}
+    },
+    "rank_stability": {
+      "replicate": {
+        "median_sd": 0.08979388,
+        "median_ci90_width": 0.2925,
+        "frac_ci90_gt_20pts": 0.80805861,
+        "frac_ci90_gt_40pts": 0.14945055
+      },
+      "within_tract": {
+        "median_sd": 0.08973518,
+        "median_ci90_width": 0.291845,
+        "frac_ci90_gt_20pts": 0.80659341,
+        "frac_ci90_gt_40pts": 0.15384615
+      },
+      "no_cov": {
+        "median_sd": 0.08734123,
+        "median_ci90_width": 0.28613,
+        "frac_ci90_gt_20pts": 0.77875458,
+        "frac_ci90_gt_40pts": 0.04981685
+      },
+      "replicate_minclamp": {
+        "median_sd": 0.09101072,
+        "median_ci90_width": 0.297735,
+        "frac_ci90_gt_20pts": 0.80659341,
+        "frac_ci90_gt_40pts": 0.16776557
+      },
+      "ep_actual": {
+        "median_sd": 0.08943553,
+        "median_ci90_width": 0.2925,
+        "frac_ci90_gt_20pts": 0.7985348,
+        "frac_ci90_gt_40pts": 0.14578755
+      },
+      "ep_equalised": {
+        "median_sd": 0.08079463,
+        "median_ci90_width": 0.26324,
+        "frac_ci90_gt_20pts": 0.72967033,
+        "frac_ci90_gt_40pts": 0.03516484
+      }
+    },
+    "decisions_replicate": {
+      "top_decile": {
+        "tau": 0.9,
+        "n_funded": 137,
+        "expected_leavers": 34.17352001,
+        "leaver_rate": 0.24944175,
+        "expected_entrants": 34.17896349,
+        "expected_label_changes": 68.3524835,
+        "mean_flip": 0.05007508,
+        "funded_p_lt_090": 99,
+        "unfunded_p_gt_010": 120,
+        "funded_interval_crosses": 109
+      },
+      "top_quintile": {
+        "tau": 0.8,
+        "n_funded": 273,
+        "expected_leavers": 51.21307818,
+        "leaver_rate": 0.18759369,
+        "expected_entrants": 51.2238778,
+        "expected_label_changes": 102.43695598,
+        "mean_flip": 0.07504539,
+        "funded_p_lt_090": 163,
+        "unfunded_p_gt_010": 155,
+        "funded_interval_crosses": 195
+      },
+      "top_quartile": {
+        "tau": 0.75,
+        "n_funded": 342,
+        "expected_leavers": 54.38169452,
+        "leaver_rate": 0.1590108,
+        "expected_entrants": 54.1436516,
+        "expected_label_changes": 108.52534612,
+        "mean_flip": 0.07950575,
+        "funded_p_lt_090": 180,
+        "unfunded_p_gt_010": 172,
+        "funded_interval_crosses": 228
+      }
+    },
+    "decisions_within_tract": {
+      "top_decile": {
+        "tau": 0.9,
+        "n_funded": 137,
+        "expected_leavers": 34.19506217,
+        "leaver_rate": 0.24959899,
+        "expected_entrants": 34.20009404,
+        "expected_label_changes": 68.39515621,
+        "mean_flip": 0.05010634,
+        "funded_p_lt_090": 99,
+        "unfunded_p_gt_010": 123,
+        "funded_interval_crosses": 109
+      }
+    },
+    "decisions_no_cov": {
+      "top_decile": {
+        "tau": 0.9,
+        "n_funded": 137,
+        "expected_leavers": 34.9598796,
+        "leaver_rate": 0.2551816,
+        "expected_entrants": 34.96733634,
+        "expected_label_changes": 69.92721593,
+        "mean_flip": 0.05122873,
+        "funded_p_lt_090": 94,
+        "unfunded_p_gt_010": 126,
+        "funded_interval_crosses": 108
+      }
+    },
+    "decisions_replicate_minclamp": {
+      "top_decile": {
+        "tau": 0.9,
+        "n_funded": 137,
+        "expected_leavers": 34.80765896,
+        "leaver_rate": 0.2540705,
+        "expected_entrants": 34.81550459,
+        "expected_label_changes": 69.62316355,
+        "mean_flip": 0.05100598,
+        "funded_p_lt_090": 100,
+        "unfunded_p_gt_010": 122,
+        "funded_interval_crosses": 110
+      }
+    },
+    "covariance_decomposition": {
+      "median_sd_replicate": 0.08979388,
+      "median_sd_within_tract": 0.08973518,
+      "median_sd_no_cov": 0.08734123,
+      "ratio_crosstract_term": 1.00065419,
+      "ratio_withintract_term": 1.02740917,
+      "frac_gt40_replicate": 0.14945055,
+      "frac_gt40_within_tract": 0.15384615,
+      "frac_gt40_no_cov": 0.04981685
+    },
+    "equalisation_experiment": {
+      "median_sd_ep_actual": 0.08943553,
+      "median_sd_ep_equalised": 0.08079463,
+      "r2_rankposition_actual": 0.61343902,
+      "r2_rankposition_equalised": 0.71332117,
+      "decile_profile_correlation": 0.93458424
+    },
+    "assumption_free_check": {
+      "median_sd_from_80_replicates": 0.0892231,
+      "median_sd_from_gaussian_draws": 0.08979388,
+      "correlation_across_tracts": 0.93132017
+    },
+    "subgroup_models": {
+      "unconditional_sd_model_r2": 0.02482719,
+      "unconditional_coefs": {
+        "(Intercept)": 0.088436,
+        "z(EP_POV150)": 0.000075,
+        "z(EP_MINRTY)": -0.000987,
+        "z(EP_NOHSDP)": 0.003275,
+        "z(log(E_TOTPOP))": -0.002444,
+        "z(log(E_TOTPOP/AREA_SQMI))": -0.002344
+      },
+      "rank_position_only_r2": 0.5899889,
+      "rank_position_plus_covariates_r2": 0.60960265,
+      "conditional_coefs": {
+        "(Intercept)": 0.005948,
+        "z(EP_POV150)": -0.004552,
+        "z(EP_MINRTY)": -0.002612,
+        "z(log(E_TOTPOP))": -0.004134
+      },
+      "flip_glm_odds_ratios": {
+        "z(EP_POV150)": 0.8823,
+        "z(EP_MINRTY)": 0.939,
+        "z(EP_NOHSDP)": 0.9506,
+        "z(log(E_TOTPOP))": 0.9622,
+        "z(log(E_TOTPOP/AREA_SQMI))": 1.034
+      },
+      "cor_imprecision_ranksd": 0.36976189,
+      "partial_cor_given_rank_position": 0.48548266,
+      "inference_note": "Coefficients are DESCRIPTIVE associations for Louisiana 2022. Naive p-values are not reported; see se_cluster (county-clustered CR1) and se_drawblock (block bootstrap over draws) in 08's output.",
+      "se_drawblock": {
+        "(Intercept)": 0.004992,
+        "z(pov)": 0.002992,
+        "z(minority)": 0.002895,
+        "z(nohs)": 0.002006,
+        "z(log_pop)": 0.001972,
+        "z(log_dens)": 0.002658
+      },
+      "se_cluster_flip_glm": {
+        "(Intercept)": 0.074891,
+        "z(pov)": 0.049484,
+        "z(minority)": 0.042367,
+        "z(nohs)": 0.038743,
+        "z(log_pop)": 0.031532,
+        "z(log_dens)": 0.050477
+      }
+    },
+    "monte_carlo_error": {
+      "per_tract_flip_se_upper_bound": 0.00707107,
+      "retained_draws_min": 4460,
+      "retained_draws_median": 5000,
+      "retained_draws_max": 5000,
+      "per_tract_flip_se_worst_case_retained": 0.00748691,
+      "expected_leavers_top_decile": 34.1724,
+      "expected_leavers_mc_se_blocked": 0.08346805,
+      "expected_leavers_mc_se_naive_iid": 0.05786402,
+      "n_blocks": 10,
+      "note": "0.5/sqrt(B) is an UPPER bound on a per-tract Monte Carlo SE for a tract retaining all B draws (draws are iid; the shared z is WITHIN a draw, across tracts, not across draws). Tracts losing draws to a zero denominator have a larger bound, given here. For cross-tract aggregates such as the expected leaver count, tracts within a draw are correlated, so the MC SE is estimated by variation across blocks of draws; the iid figure is shown for contrast."
+    }
+  }
+}
