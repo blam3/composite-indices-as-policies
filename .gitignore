@@ -1,0 +1,33 @@
+# --- Data: never commit. Raw ACS variance replicate tables are hundreds of MB
+# and the CDC validation file is redistributable but large. data/README.md
+# documents how to fetch them.
+data/raw/*
+!data/raw/.gitkeep
+data/derived/*
+!data/derived/.gitkeep
+*.zip
+*.tar.gz
+
+# --- R
+.Rhistory
+.Rapp.history
+.RData
+.Ruserdata
+.Rproj.user/
+*.Rproj
+.Renviron
+*.Rcheck/
+*.tar.gz
+*.tgz
+
+# --- Editors / OS
+.DS_Store
+.vscode/
+.idea/
+*~
+\#*\#
+
+# --- Session scratch
+scratch/
+tmp/
+*.log

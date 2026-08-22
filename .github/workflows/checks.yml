@@ -1,0 +1,58 @@
+name: checks
+
+# Deliberately light. The real gate is `run_all.sh`, which needs hundreds of
+# megabytes of ACS data that is not in this repo and cannot run in CI. What CI
+# can do is guarantee that nothing merges with a syntax error, an unparseable
+# results manifest, or a committed data file.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  static:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+
+      - name: Every R file parses
+        run: |
+          Rscript -e '
+            fs <- list.files(".", pattern="[.][Rr]$", recursive=TRUE, full.names=TRUE)
+            fs <- fs[!grepl("^[.]/(data|[.]git)/", fs)]
+            bad <- character(0)
+            for (f in fs) {
+              ok <- tryCatch({ parse(f); TRUE }, error=function(e) { message(f, ": ", conditionMessage(e)); FALSE })
+              if (!ok) bad <- c(bad, f)
+            }
+            cat(length(fs), "R files parsed;", length(bad), "failed\n")
+            if (length(bad)) quit(status=1)
+          '
+
+      - name: Results manifest is valid JSON and carries the reproduction gate
+        run: |
+          python3 - <<'PY'
+          import json, sys, pathlib
+          p = pathlib.Path("analysis/louisiana/results/EXPECTED-RESULTS.json")
+          if not p.exists():
+              print("manifest missing; skipping (allowed until first results commit)")
+              sys.exit(0)
+          d = json.loads(p.read_text())
+          assert "deterministic" in d, "manifest must be split into deterministic / monte_carlo"
+          assert "monte_carlo" in d, "manifest must be split into deterministic / monte_carlo"
+          print("manifest OK:", sorted(d["deterministic"])[:8])
+          PY
+
+      - name: No data files committed
+        run: |
+          if git ls-files data/ | grep -v '.gitkeep' | grep -v 'README.md' | grep -q .; then
+            echo "Data files are committed under data/. Remove them."
+            git ls-files data/ | grep -v '.gitkeep' | grep -v 'README.md'
+            exit 1
+          fi
+          echo "data/ is clean"

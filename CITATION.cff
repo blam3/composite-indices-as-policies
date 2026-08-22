@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+title: "Composite Indices Are Policies, Not Measures"
+message: "If you use this software or its findings, please cite it."
+type: software
+authors:
+  - family-names: "Lawler"
+    given-names: "Brendan"
+    email: "15bnl@queensu.ca"
+    affiliation: "Queen's University"
+repository-code: "https://github.com/USERNAME/composite-indices-as-policies"
+abstract: >-
+  Tools and analyses treating area-level allocation composites such as the
+  CDC/ATSDR Social Vulnerability Index as policies rather than measures.
+  Includes an exact reproduction of the SVI 2022 pipeline and a
+  decision-reliability analysis based on ACS variance replicate estimates.
+keywords:
+  - composite indicators
+  - social vulnerability index
+  - measurement error
+  - policy learning
+  - American Community Survey
+license: MIT
+date-released: "2026-08-22"
