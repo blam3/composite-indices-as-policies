@@ -5,6 +5,16 @@ data/raw/*
 !data/raw/.gitkeep
 data/derived/*
 !data/derived/.gitkeep
+# The pipeline's own root is analysis/<state>/, so DIR_RAW is
+# analysis/<state>/data/raw/140 -- the anchored patterns above do not
+# reach it. These do.
+**/data/raw/*
+!**/data/raw/.gitkeep
+**/data/derived/*
+!**/data/derived/.gitkeep
+# Pipeline scratch and rerun outputs (00_config.R DIR_WORK / DIR_OUT).
+analysis/*/work/
+analysis/*/outputs-rerun/
 *.zip
 *.tar.gz
 
