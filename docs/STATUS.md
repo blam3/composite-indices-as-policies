@@ -1,8 +1,10 @@
 # STATUS — Composite Indices as Policies, and Measures
  
-**Living status document for the research program defined in `composite-indices-as-policies-research-program.md`.**
+**Living status document for the [research program](program.md).**
+
+**Current verification:** [verification.md](verification.md) supersedes historical claims of ready-to-run infrastructure. The archived §2 numbers have not been rerun; subgroup-ratio discrepancies and unmanifested equalisation claims remain open. No empirical result was changed in the November cleanup.
  
-`Last updated: 2026-08-23` · `Last verified against artifacts: 2026-08-23` · `Program month: 0` · `Active workpackage: WP1`
+`Last updated: 2026-11-25` · `Last verified against artifacts: 2026-11-25 (static artifact review only; no full-data rerun)` · `Program month: 0` · `Active workpackage: WP1`
  
 ---
  
@@ -10,7 +12,7 @@
  
 This file is the single source of truth for *where the program is*. The program document is the source of truth for *what the program is*. Do not duplicate the program document here; point at it.
  
-**When to update.** In the same turn you do any of the following, rewrite this file with `project_write` to `claude/STATUS-composite-indices-program.md`:
+**When to update.** In the same turn you do any of the following, update this repository's `docs/STATUS.md`:
  
 | Trigger | What counts |
 |---|---|
@@ -39,13 +41,13 @@ Reading this file is **not** a trigger. Neither is a conversation that produces 
  
 | WP | What it answers | Status | Blocking | Primary artifact |
 |---|---|---|---|---|
-| **WP1** Decision reliability | How much of the SVI ranking is survey noise, and is the noise distributed evenly? | **Analysis complete for one state and independently audited; paper not drafted** | nothing | `claude/wp1-svi-reproduction-louisiana-findings.md` |
+| **WP1** Decision reliability | How much of the SVI ranking is survey noise, and is the noise distributed evenly? | **Analysis complete for one state and independently audited; paper not drafted** | nothing | `docs/wp1-louisiana-findings.md` |
 | **WP2** Differential prediction | Does the index predict harm equally across groups and regions? | **Not started — gated** | tract-linked outcome data feasibility unknown | — |
 | **WP3** Transported safe policy learning | Does a safety guarantee survive transport to an adopting jurisdiction? | **Not started; one derivation now owed before any code.** Objective, policy-class formalism and regret bound now taken from empirical welfare maximization (Kitagawa & Tetenov 2018); the safety constraint sits on top of it | see §4, items 1 and 9 | — |
 | **WP4** Whose weights? | Do equal, outcome-optimal, participatory — and now GSCA-estimated — weights induce the same allocation? | **Not started; a fourth benchmark arm added** | WP3 outcome-optimal weights | — |
 | **WP5** Composite vs reflective in AI evaluation | Are aggregate AI safety scores composites mistaken for reflective measures? | **Not started; written last by design** | WP1/WP3 results to cite | companion: `equitable-safety-measurement-statement.md`, `claude/project-ideas-equitable-safety-measurement.md` |
  
-**One-line state.** WP1's empirical work is done, the reproduction is exact, and it has now survived an independent audit that corrected three claims and overturned one; the program's month-2 gate (outcome data) is still unspent and is the highest-value open question. Infrastructure for the next phase — a public GitHub repository and an engineered prompt pack for the §6 LLM tasks — is specified but not yet stood up. Two adjacent literatures (components-based SEM; empirical welfare maximization) have now been assessed and placed; see §5.
+**One-line state.** WP1's empirical work is done, the reproduction is exact, and it has now survived an independent audit that corrected three claims and overturned one; the program's month-2 gate (outcome data) is still unspent and is the highest-value open question. The public GitHub repository now contains the code and archived outputs. November presentation/reproduction-tooling changes are recorded in the verification note; no full-data rerun was performed. Two adjacent literatures (components-based SEM; empirical welfare maximization) have now been assessed and placed; see §5.
  
 ---
  
@@ -87,7 +89,7 @@ All from ACS 2018–2022 5-year Variance Replicate Tables, summary level 140, Lo
  
 ## 4. Corrections owed to the program document
  
-Recorded here rather than silently edited into `composite-indices-as-policies-research-program.md`, so the change is visible.
+Recorded here rather than silently edited into `docs/program.md`, so the change is visible.
  
 1. **§6.4(ii) needs restating on the rank scale.** The measurement-error contribution was posed as `Pr(w'X̂ ≥ τ | w'X = s) = Φ((s−τ)/σ_g(s))` with `σ_g` varying by protected group. That is correct on the percentage scale and the magnitudes are large (§2). But SVI's threshold is applied on the **rank** scale, where the percentile transform substantially neutralises the group-varying part of σ and replaces it with a position-varying part — now shown experimentally, not just by regression. **This one-page derivation is owed before any WP3 optimisation code exists.**
 2. **§4's predicted finding was refuted.** "Flip rates are highest in poor and minority tracts" does not hold in Louisiana at the overall-index level. The replacement claim (§2) is stronger and is still a statement about differential measurement precision with an allocation consequence.
@@ -102,13 +104,21 @@ Recorded here rather than silently edited into `composite-indices-as-policies-re
  
 ## 5. Artifacts and provenance
  
+**Presentation and verification artifacts (2026-11-25)**
+
+- `docs/case-study.md`: reader-facing findings traced to the manifest.
+- `docs/verification.md`: verification scope, limits, and unresolved discrepancies.
+- `scripts/check_inputs.py`: input staging preflight and current-file fingerprints.
+- `scripts/compare_results.py`: exact/tolerant manifest comparison.
+- `tests/test_reproduction_tools.py` and `tests/check_pipeline.R`: failure and boundary checks.
+
 **Project documents**
  
 | Path | Role |
 |---|---|
-| `composite-indices-as-policies-research-program.md` | The program. Scope, theory, prior art, risk register, sequencing. |
-| `claude/wp1-svi-reproduction-louisiana-findings.md` | WP1 results in full, with method detail and source links. Revised 2026-08-19. |
-| `claude/wp1-audit-response-2026-08-19.md` | Item-by-item response to the independent audit; what changed and why. |
+| `docs/program.md` | The program. Scope, theory, prior art, risk register, sequencing. |
+| `docs/wp1-louisiana-findings.md` | WP1 results in full, with method detail and source links. Revised 2026-08-19. |
+| `docs/wp1-audit-response.md` | Item-by-item response to the independent audit; what changed and why. |
 | `claude/cip-github-workflow.md` | Repository plan and exact git/gh commands; the branch-per-agent-session review convention. |
 | `claude/cip-prompt-pack-next-steps.md` | Engineered prompts for the five §6 LLM tasks, with routing, acceptance criteria and grading rubric. |
 | `claude/cip-components-sem-and-welfare-maximization.md` | Components-based SEM (PLS-SEM, GSCA) and empirical welfare maximization, assessed against WP3/WP4. **Status checked 2026-08-19: delivered as a downloadable file in the source conversation, not present in the project.** Import it before citing it from here. |
@@ -116,9 +126,9 @@ Recorded here rather than silently edited into `composite-indices-as-policies-re
 | `equitable-safety-measurement-statement.md` | The AI-safety framing WP5 returns to. |
 | `claude/project-ideas-equitable-safety-measurement.md` | Idea tier list for the AI-side program; WP5 is its intellectual sibling. |
 | `docs/wp1-line-number-verification.md` | The sixteen ACS line-number mappings checked against the published 2018–2022 5-year table shells, blind-derived before the code was opened. Closes §6 LLM task 1. New 2026-08-23. |
-| `claude/STATUS-composite-indices-program.md` | This file. |
+| `docs/STATUS.md` | This file. |
  
-**Code** — `svi-wp1-audit-revised.tar.gz`, delivered 2026-08-19 (supersedes `svi-wp1-louisiana-code.tar.gz`, 2026-08-18). R, ~18 min end to end on one core at B = 5,000. **The tarball on the researcher's machine is currently the only copy; the repository in `claude/cip-github-workflow.md` is specified but not yet created.**
+**Code** — `svi-wp1-audit-revised.tar.gz`, delivered 2026-08-19 (supersedes `svi-wp1-louisiana-code.tar.gz`, 2026-08-18). R, ~18 min end to end on one core at B = 5,000. **The code is now committed under `analysis/louisiana/code/`; the earlier tarball is historical provenance.**
  
 ```
 00_config.R               paths
@@ -154,7 +164,7 @@ The six simulation designs: `replicate` (all covariance), `within_tract` (cross-
  
 **For the researcher** — things requiring judgment, access, or a decision no agent should make.
  
-1. **Stand up the repository.** The code exists in one place, on one machine. `claude/cip-github-workflow.md` has the bootstrap script and the two `gh` commands. Public from the first push; the audit-and-correction history is the portfolio artifact.
+1. **Complete a fresh full-data rerun.** The public repository exists. Use `data/README.md` and the repaired runner, retain input fingerprints, and resolve the discrepancies in `docs/verification.md`.
 2. **Spend the OpenFEMA afternoon.** Check the actual geographic resolution of Individual Assistance registrations and verified loss. This is the month-2 gate (open decision #2) and the highest-value unspent hour in the plan.
 3. **Read Spielman et al. (2020) and the Rufat–CDC exchange in full, in that order**, noting where each side's argument would be settled by a differential-prediction analysis neither ran. Not yet done.
 4. **Pick the WP3 anchor programme** (open decision #1).
@@ -207,3 +217,17 @@ Three supporting checks, all in the new script and all exiting nonzero on failur
 One incidental defect fixed while doing this. `.gitignore` anchored `data/raw/*` at the repository root, but `00_config.R` puts `DIR_RAW` at `analysis/<state>/data/raw/140`, so the 177 MB of VRT files and the CDC validation file a session must fetch were **not** ignored — a session that staged them and ran `git add -A` would have committed them, against the hard rule in `CLAUDE.md`. Added `**/data/raw/*`, `**/data/derived/*` and the pipeline's `work/` and `outputs-rerun/` directories.
 
 One defect noted and *not* fixed, because it is CDC's document and not ours: the SVI 2022 data dictionary's `EP_MINRTY` cell reads `100.0 - DP05_0019PE`, which is the under-18 percent. The `E_MINRTY` row (`DP05_0001E - DP05_0079E`) and the footnote both make the intended quantity unambiguous, and this pipeline follows the intended one.
+
+
+**2026-11-25 — Presentation and reproduction-entry repairs; no scientific result changed.**
+
+Authorized direct commits by the researcher for employer presentation. Rewrote
+README and input layout, repaired runner/Makefile paths and missing-reference
+handling, replaced nonexistent checksum verification with explicitly scoped
+current-file fingerprints, and added comparison/boundary checks. Repaired the
+truncated findings landing page while preserving its prior contents verbatim.
+New case study uses only manifest-traceable values. R and source data were not
+available in the cleanup environment; no full-data rerun is claimed. The GROUPQ
+and NOVEH ratios differ between historical prose and manifest; equalisation
+headlines lack direct manifest fields. Both are recorded as unresolved in
+`docs/verification.md`; no choice of numbers or baseline change was made.

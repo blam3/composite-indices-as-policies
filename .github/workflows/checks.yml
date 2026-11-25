@@ -1,4 +1,6 @@
 name: checks
+permissions:
+  contents: read
 
 # Deliberately light. The real gate is `run_all.sh`, which needs hundreds of
 # megabytes of ACS data that is not in this repo and cannot run in CI. What CI
@@ -34,25 +36,33 @@ jobs:
             if (length(bad)) quit(status=1)
           '
 
+      - name: Ranking boundary checks
+        run: Rscript tests/check_pipeline.R
+
+      - name: Reproduction tooling checks
+        run: python3 -m unittest discover -s tests
+
       - name: Results manifest is valid JSON and carries the reproduction gate
         run: |
           python3 - <<'PY'
           import json, sys, pathlib
           p = pathlib.Path("analysis/louisiana/results/EXPECTED-RESULTS.json")
           if not p.exists():
-              print("manifest missing; skipping (allowed until first results commit)")
-              sys.exit(0)
+              raise SystemExit("Committed results manifest is missing")
           d = json.loads(p.read_text())
           assert "deterministic" in d, "manifest must be split into deterministic / monte_carlo"
           assert "monte_carlo" in d, "manifest must be split into deterministic / monte_carlo"
           print("manifest OK:", sorted(d["deterministic"])[:8])
           PY
 
-      - name: No data files committed
+      - name: No raw or derived input files committed (including nested data directories)
         run: |
-          if git ls-files data/ | grep -v '.gitkeep' | grep -v 'README.md' | grep -q .; then
-            echo "Data files are committed under data/. Remove them."
-            git ls-files data/ | grep -v '.gitkeep' | grep -v 'README.md'
-            exit 1
-          fi
-          echo "data/ is clean"
+          python3 - <<'PY'
+          from pathlib import PurePosixPath
+          import subprocess
+          paths = subprocess.check_output(["git", "ls-files", "-z"]).decode().split("\0")
+          bad = [p for p in paths if "data" in PurePosixPath(p).parts and PurePosixPath(p).name not in {"README.md", ".gitkeep"}]
+          if bad:
+              raise SystemExit("Data files must not be committed: " + ", ".join(bad))
+          print("Input data directories are clean")
+          PY
