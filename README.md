@@ -2,17 +2,23 @@
 
 **How reliable are the scores used to allocate public resources?**
 
-This project studies how sampling uncertainty in American Community Survey
-inputs propagates through the CDC/ATSDR Social Vulnerability Index (SVI) and
-changes which census tracts qualify under hypothetical allocation thresholds.
+The Social Vulnerability Index (SVI) is calculated for each census tract in the United 
+States, and quantifies how susceptible a community is to stressors and public health 
+emergencies. The SVI has been used to guide and allocate funding across 
+federal, state, and local programs, including disaster recovery, public health, and 
+municipal support.
+
+**This project studies how sampling uncertainty in the American Community Survey
+data propagates through the CDC/ATSDR Social Vulnerability Index and
+changes which census tracts qualify for funding under hypothetical allocation thresholds.**
 It connects measurement error to decisions that an index could induce.
 
-**Methods:** R · public-data reconstruction · variance replicates · Monte Carlo
-simulation · uncertainty propagation · descriptive subgroup analysis
+**Methods:** R; public-data reconstruction; variance replicates; Monte Carlo
+simulation; uncertainty propagation; descriptive subgroup analysis
 
 ![Louisiana decision reliability, archived analysis](analysis/louisiana/results/svi_decision_reliability.png)
 
-## Start with the case study
+## Case study: Louisiana
 
 The committed Louisiana analysis reports:
 
@@ -28,7 +34,7 @@ The committed Louisiana analysis reports:
 [Machine-readable reference](analysis/louisiana/results/EXPECTED-RESULTS.json) ·
 [Tract-level results](analysis/louisiana/results/tract_decision_reliability.csv)
 
-These are **archived results**, not a new rerun. The allocation is a hypothetical
+These are **archived results**. The allocation is a hypothetical
 rank-threshold rule. The simulation does not establish that actual grants were
 misallocated, estimate benefits of alternative policies, or identify causal
 relationships between tract characteristics and outcomes.
@@ -48,17 +54,9 @@ Rscript -e 'install.packages(c("data.table", "ggplot2", "dplyr", "gridExtra", "j
 bash analysis/louisiana/run_all.sh
 ```
 
-[Exact input layout and official sources](data/README.md). Raw inputs are not
-committed. The runner checks dependencies and required input columns, records
-current-file SHA-256 fingerprints, runs the analysis, and compares the new
-manifest against the reference. Historical input checksums are unavailable;
-fingerprinting the current files does not authenticate the original run.
+[Exact input layout and official sources](data/README.md). Because raw input files aren't included in the repository, you have to download them yourself. The pipeline script verifies your software packages and input columns, records digital fingerprints (SHA-256 hashes) of your local files, runs the analysis, and checks your results against the archived reference. Keep in mind that these file fingerprints only log the data you used today; since the original file checksums weren't saved, they can't prove your downloaded files match the exact versions from the initial run.
 
-The full-data gate requires **100% value and missingness reproduction**.
-Deterministic manifest fields retain an absolute tolerance of `1e-9`; Monte
-Carlo fields retain a 2% relative tolerance, with exact seed/draw-count metadata.
-Failures exit nonzero. Rerun outputs are ignored by Git and never overwrite the
-committed reference.
+To pass verification, your local run must reproduce 100% of the published values and missing-data patterns. Specifically, deterministic outputs must match the reference within a 1e-9 absolute tolerance, and Monte Carlo simulation outputs must fall within a 2% relative tolerance (using the exact same random seed and draw counts). If any check fails, the script exits with an error. All newly generated files are ignored by Git, so your local run will never overwrite the saved reference results.
 
 ## Lightweight checks
 
@@ -93,12 +91,10 @@ The [program document](docs/program.md) is an evolving research proposal;
 - `tests/`: ranking boundary checks and reproduction-tool failure checks
 - `docs/`: case study, audit history, verification notes, and future research
 
-## Provenance and license
+## License
 
 Research repository maintained by Brendan Lam. The historical
-[audit response](docs/wp1-audit-response.md) records Codex/Claude assistance and
-corrections; this is not external peer review. The original raw inputs and
-complete execution environment are not bundled. Research conclusions should be
+[audit response](docs/wp1-audit-response.md) records Codex and Claude assistance. Research conclusions should be
 reviewed independently before use in policy.
 
 Code: [MIT](LICENSE). Prose and figures: [CC BY 4.0](LICENSE-docs).
