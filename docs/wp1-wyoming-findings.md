@@ -24,12 +24,11 @@ compares the two line by line.
   other Louisiana script.
 - **`run_all.sh` did not run in this checkout, for either state.** It
   unzipped a glob that matched nothing, checked a checksum file that did not
-  exist, and diffed against a manifest path that had moved. Now zips are
-  optional, `INPUT-CHECKSUMS.sha256` sits at the state root and is
-  **required**, and the claimed manifest is `results/EXPECTED-RESULTS.json`.
-  Louisiana's checksum file records the inputs on disk on 2026-11-26. They
-  reproduce exactly, but they are not provably the bytes the 2026-08-19 audit
-  ran on.
+  exist, and diffed against a manifest path that had moved. `main` repaired the
+  same defects independently on 2026-11-25, and that version is the one merged
+  here. It records current-file fingerprints through `scripts/check_inputs.py`,
+  which no longer hardcodes Louisiana, and compares against
+  `results/EXPECTED-RESULTS.json` through `scripts/compare_results.py`.
 - **Manifest extended, for both states.** Three figures quoted in STATUS §2
   were in the logs but not in `EXPECTED-RESULTS.json`: the decile rank-noise
   profiles, the top-decile noise ratio (Louisiana 1.57×) and the equalised
@@ -268,4 +267,5 @@ cd analysis/wyoming && ./run_all.sh
 
 Fetch the inputs listed in `analysis/wyoming/README.md` first. The run
 takes about 3 minutes at B = 5,000 and exits nonzero unless the gate passes
-and every deterministic manifest field matches exactly.
+and every deterministic manifest field matches exactly. From the repository
+root: `bash analysis/wyoming/run_all.sh`.

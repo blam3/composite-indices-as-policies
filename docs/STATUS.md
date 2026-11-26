@@ -1,6 +1,8 @@
 # STATUS — Composite Indices Are Policies, Not Measures
 
-**Living status document for the research program defined in `composite-indices-as-policies-research-program.md`.**
+**Living status document for the [research program](program.md).**
+
+**Current verification:** [verification.md](verification.md) records verification scope and limits. As of 2026-11-26 the full Louisiana chain has been rerun end to end (deterministic fields exact, Monte Carlo fields bit-identical) and the equalisation headlines now have manifest fields; the GROUPQ/NOVEH ratios in §2 are corrected to the manifest values (3.09, 2.93).
 
 `Last updated: 2026-11-26` · `Last verified against artifacts: 2026-08-19 (§2 numbers); 2026-08-23 (OpenFEMA); 2026-11-26 (repository, its docs/, and this project's document list); 2026-11-26 (Louisiana chain rerun end to end; Wyoming chain run)` · `Program month: 0` · `Active workpackage: WP1`
 
@@ -10,7 +12,7 @@
 
 This file is the single source of truth for *where the program is*. The program document is the source of truth for *what the program is*. Do not duplicate the program document here; point at it.
 
-**When to update.** In the same turn you do any of the following, rewrite this file with `project_write` to `claude/STATUS-composite-indices-program.md`:
+**When to update.** In the same turn you do any of the following, update this repository's `docs/STATUS.md`:
 
 | Trigger | What counts |
 |---|---|
@@ -52,7 +54,7 @@ Reading this file is **not** a trigger. Neither is a conversation that produces 
 
 ## 2. Verified results — do not re-derive these
 
-All from ACS 2018–2022 5-year Variance Replicate Tables, summary level 140, Louisiana (state FIPS 22), validated against the published CDC/ATSDR SVI 2022 Louisiana file. **Numbers are from the 2026-08-19 post-audit rerun.** Method detail lives in `claude/wp1-svi-reproduction-louisiana-findings.md`; code in §5. **One conflict with that document is open — see the 2026-08-23 changelog entry below — so treat the GROUPQ and NOVEH SE ratios as unconfirmed until resolved against `EXPECTED-RESULTS.json`.**
+All from ACS 2018–2022 5-year Variance Replicate Tables, summary level 140, Louisiana (state FIPS 22), validated against the published CDC/ATSDR SVI 2022 Louisiana file. **Numbers are from the 2026-08-19 post-audit rerun.** Method detail lives in `claude/wp1-svi-reproduction-louisiana-findings.md`; code in §5. **Louisiana was rerun end to end on 2026-11-26 and every number here reproduces. The GROUPQ and NOVEH SE ratios were corrected that day against `EXPECTED-RESULTS.json`; see §7.**
 
 **Reproduction fidelity**
 - **57,368 of 57,368** published values reproduce exactly — all `EP_`, `EPL_`, `SPL_`, `RPL_` fields for all **1,379** tracts — and **57,918 of 57,918** cells agree on missing-versus-present. Both halves are enforced with a nonzero exit.
@@ -69,7 +71,7 @@ All from ACS 2018–2022 5-year Variance Replicate Tables, summary level 140, Lo
 - **Robustness.** The 80 published replicates with no Gaussian step give median SD 0.0892 against the model's 0.0898 (ratio 1.006, cross-tract correlation 0.93). Relaxing the boundary clamps raises the leaver rate from 24.9% to 25.4%; clamping fires less often in high-poverty tracts (0.76 Q5/Q1), so it is not manufacturing the subgroup null.
 
 **Subgroup-conditional reliability** — descriptive Louisiana 2022 associations, county-clustered (CR1) standard errors and a draw-block bootstrap; no p-values.
-- Input precision *is* regressive: SE ratios, highest- vs lowest-poverty quintile — GROUPQ 2.62, NOVEH 2.51, UNEMP 2.39, CROWD 2.38, POV150 2.22, NOHSDP 2.19, SNGPNT 1.92. `MINRTY` is flat (0.85).
+- Input precision *is* regressive: SE ratios, highest- vs lowest-poverty quintile — GROUPQ 3.09, NOVEH 2.93, UNEMP 2.39, CROWD 2.38, POV150 2.22, NOHSDP 2.19, SNGPNT 1.92. `MINRTY` is flat (0.85).
 - Rank noise is **not** regressive at the overall percentile. Rank position alone explains R² = 0.59 of rank SD (inverted U, peaking mid-distribution). Conditional on distance to the cutoff, higher-poverty tracts flip *slightly less* (OR 0.88 per SD, clustered t = −2.5).
 - **Experimental rather than correlational.** Equalising every tract's input precision to the cross-tract median leaves the inverted-U shape intact (decile profiles correlate 0.93) but cuts rank noise in the **top decile by 36%** and drops the top-decile leaver rate from 24.9% to **20.2%**. The published funded set carries **1.57×** the rank noise it would carry under equal input precision. About a fifth of the churn in the funded set is attributable to unequal input precision.
 - Partial correlation between input imprecision and rank SD, holding rank position fixed: **0.485** (an association; the adjustment is close to conditioning on a mediator).
@@ -109,6 +111,14 @@ The three that most change what the program *does*, rather than what it says: **
 
 **Repository** — **`https://github.com/blam3/composite-indices-as-policies`**, public. Verified 2026-08-23: 4 commits on `main`, last push 15:23 UTC, skeleton as specified in `claude/cip-github-workflow.md` (`.github/workflows`, `R/`, `analysis/louisiana/`, `data/`, `docs/`, `figures/`, `tests/testthat/`, `CLAUDE.md`, `README.md`, `LICENSE`, `Makefile`, `CITATION.cff`). The README carries the corrected WP1 headline. **The "code exists in one place, on one machine" risk is retired.** From here, every agent session gets its own branch and pull request.
 
+**Presentation and verification artifacts (2026-11-25)**
+
+- `docs/case-study.md`: reader-facing findings traced to the manifest.
+- `docs/verification.md`: verification scope, limits, and unresolved discrepancies.
+- `scripts/check_inputs.py`: input staging preflight and current-file fingerprints. Reads `STATE_FIPS`/`STATE_NAME` from the state's `00_config.R` since 2026-11-26.
+- `scripts/compare_results.py`: exact/tolerant manifest comparison.
+- `tests/test_reproduction_tools.py` and `tests/check_pipeline.R`: failure and boundary checks.
+
 **Project documents**
 
 | Path | Role |
@@ -134,7 +144,7 @@ The three that most change what the program *does*, rather than what it says: **
 | `claude/project-ideas-equitable-safety-measurement.md` | Idea tier list for the AI-side program. |
 | `claude/STATUS-composite-indices-program.md` | This file. |
 
-**Code** — R, ~18 min end to end on one core at B = 5,000 for Louisiana (~3 min for Wyoming), in `analysis/louisiana/code/` in the repository. `analysis/wyoming/code/` holds its own `00_config.R` and symlinks to every other Louisiana script; `STATE_FIPS` and `STATE_NAME` in `00_config.R` are the only state-specific lines. `run_all.sh` now requires `INPUT-CHECKSUMS.sha256` at the state root and diffs against `results/EXPECTED-RESULTS.json`. `00_config` · `01_build_estimates` · `02_validate_estimates` · `03_svi_pipeline` (the CDC rule as a pure function — the reusable core) · `04_validate_pipeline` · `05_replicate_simulation` · `06_qa_variance` · `07_decision_reliability` · `08_subgroup_reliability` · `09_why_flat` · `10_figure` · `11_expected_results` · `run_all.sh`.
+**Code** — R, ~18 min end to end on one core at B = 5,000 for Louisiana (~3 min for Wyoming), in `analysis/louisiana/code/` in the repository. `analysis/wyoming/code/` holds its own `00_config.R` and symlinks to every other Louisiana script; `STATE_FIPS` and `STATE_NAME` in `00_config.R` are the only state-specific lines. `run_all.sh` fingerprints inputs with `scripts/check_inputs.py` and diffs against `results/EXPECTED-RESULTS.json` with `scripts/compare_results.py`. `00_config` · `01_build_estimates` · `02_validate_estimates` · `03_svi_pipeline` (the CDC rule as a pure function — the reusable core) · `04_validate_pipeline` · `05_replicate_simulation` · `06_qa_variance` · `07_decision_reliability` · `08_subgroup_reliability` · `09_why_flat` · `10_figure` · `11_expected_results` · `run_all.sh`.
 
 Six simulation designs: `replicate`, `within_tract`, `no_cov`, `replicate_minclamp`, and the matched EP-level pair `ep_actual` / `ep_equalised`. `03_svi_pipeline.R` takes an arbitrary component specification, so swapping any of them is a one-line change — the seed of the `svi-churn` package.
 
@@ -144,7 +154,7 @@ Six simulation designs: `replicate`, `within_tract`, `no_cov`, `replicate_mincla
 
 **Environment routing for LLM sessions.** The Cowork sandbox proxy blocks `census.gov` and `cdc.gov` (`WebFetch` returns `ROBOTS_DISALLOWED`), and cannot reach CRAN, `api.crossref.org`, `onlinelibrary.wiley.com` (403), ScienceDirect, or JSTOR/PMC/PubMed (script gates and CAPTCHA). `journals.plos.org` also blocked the fetch tool as of 2026-10-05 (provenance-permission timeout) — PLOS ONE items were sourced via EconPapers/RePEc abstract mirrors instead. The 2026-10-12 scan hit a broader, session-specific block on `arxiv.org, export.arxiv.org, osf.io, and econpapers.repec.org`; **the 2026-11-23 scan confirms this was transient** — both of that session's research agents had working `WebFetch` access to arXiv throughout, with no provenance-timeout issues. So the guidance stands: re-test each session rather than assume either state. Other hosts (`nature.com`, `link.springer.com`, `gao.gov`, assorted law-firm blogs, IZA, `digitalpolicyalert.org`, `reedsmith.com`) fetched normally. Tasks touching census.gov, cdc.gov or CRAN still go to Claude Code running locally. Reachable and confirmed working 2026-08-23: **`fema.gov`, including the full OpenFEMA v2 API** (so WP2 data reconnaissance can run in Cowork), plus GitHub and its API, `federalregister.gov`, `huduser.gov`, `link.springer.com`, `ideas.repec.org`, PyPI and npm. Install R packages from `apt` (`r-base-core`, `r-cran-data.table`, `r-cran-ggplot2`, `r-cran-dplyr`, `r-cran-gridextra`, `r-cran-jsonlite`); disable any `download.docker.com` apt source first or `apt-get update` fails. If the Census route is needed from a browser-capable session: drive Chrome to each file URL and stage the downloads in.
 
-**Wyoming data** — the same 16 tables as `<table>_56.csv.zip` from the same directory; validation target `https://svi.cdc.gov/Documents/Data/2022/csv/states/Wyoming.csv`. Fetched 2026-11-26; checksums in `analysis/wyoming/INPUT-CHECKSUMS.sha256`.
+**Wyoming data** — the same 16 tables as `<table>_56.csv.zip` from the same directory; validation target `https://svi.cdc.gov/Documents/Data/2022/csv/states/Wyoming.csv`. Fetched 2026-11-26; `run_all.sh` writes current-file fingerprints to `outputs-rerun/INPUT-FINGERPRINTS.json`.
 
 **Other outputs** (per state, under `analysis/<state>/results/`) — `svi_decision_reliability.png` (four-panel figure), `tract_reliability_with_covariates.csv`, `tract_decision_reliability.csv` (all six designs), `EXPECTED-RESULTS.json`.
 
@@ -154,7 +164,7 @@ Six simulation designs: `replicate`, `within_tract`, `no_cov`, `replicate_mincla
 
 **For the researcher** — things requiring judgment, access, or a decision no agent should make.
 
-1. **Resolve the SE-ratio conflict** between §2 and `claude/wp1-svi-reproduction-louisiana-findings.md` for GROUPQ and NOVEH, against `EXPECTED-RESULTS.json`. Five of seven ratios agree exactly; two do not. Whichever is right, the loser gets corrected and a §7 entry records which. Cheap, and it is the only known unresolved factual disagreement inside the project's own documents. **Outstanding since 19 August and now the oldest open item.**
+1. ~~**Resolve the SE-ratio conflict**~~ **Done 2026-11-26 — §2 corrected to the manifest (GROUPQ 3.09, NOVEH 2.93); see §7.** Original text follows. Resolve the conflict between §2 and `claude/wp1-svi-reproduction-louisiana-findings.md` for GROUPQ and NOVEH, against `EXPECTED-RESULTS.json`. Five of seven ratios agree exactly; two do not. Whichever is right, the loser gets corrected and a §7 entry records which. Cheap, and it is the only known unresolved factual disagreement inside the project's own documents. **Outstanding since 19 August and now the oldest open item.**
 2. **Pick the WP3 threshold formalism** (open decision #5). The QCT structure has done most of the work; what is left is whether cap-binding metros are a modelling complication or the identifying variation. **Leads to weigh in:** Cerulli (2026, arXiv:2605.12235) on budget-and-coverage-constrained policy learning (2026-10-05 scan); Bong (2026, arXiv:2611.14572) on strategic/manipulable-eligibility threshold corrections (2026-11-23 scan, tangential).
 3. **Decide one-state or multi-state** (open decision #3), now with three candidate reference sets in play.
 4. **Edit the program document itself** for the eleven owed corrections in `claude/cip-corrections-owed-to-program-doc.md`. Every one has been recorded rather than applied, some since 18 August. §4 is now long enough that the recording is doing work the editing should do.
@@ -180,6 +190,14 @@ Six simulation designs: `replicate`, `within_tract`, `no_cov`, `replicate_mincla
 ## 7. Changelog
 
 *Append only. Never edit or delete an entry — correct a wrong entry with a new one. Entries before 2026-08-23 have been moved verbatim to `claude/STATUS-archive-2026-08.md` under §0 rule 5; that file is append-only too.*
+
+**2026-11-26 (fourth entry) — §2's GROUPQ and NOVEH SE ratios corrected from 2.62 and 2.51 to 3.09 and 2.93. §6 researcher item 1 closed, on the researcher's instruction.**
+
+§2 now matches `deterministic.se_ratio_povQ5_over_povQ1` in `analysis/louisiana/results/EXPECTED-RESULTS.json` (GROUPQ 3.0884, NOVEH 2.9342) and `docs/wp1-louisiana-findings.md` (3.09, 2.93). The basis is stronger than a manifest lookup: the end-to-end rerun on 2026-11-26 recomputed these ratios from the staged inputs with the committed code, and they are deterministic fields that matched exactly. The other five ratios in that §2 line were already correct and are unchanged. Where 2.62 and 2.51 came from is not known — no script or manifest field in the repository produces them — so they are recorded as a transcription error of unknown origin rather than a competing estimand. The "two to three times the sampling error" wording in the WP1 claim still holds (seven ratios from 1.92 to 3.09). Earlier changelog entries that call this conflict open are left as written, per §0 rule 3.
+
+**2026-11-26 (third entry) — `main`'s 2026-11-25 cleanup merged into `wp1/wyoming-replication`. No number changed.**
+
+The two branches had each repaired `run_all.sh`. `main`'s version is kept: it fingerprints the current input files instead of verifying checksums it has no baseline for. This branch's `INPUT-CHECKSUMS.sha256` files are removed as redundant, and `scripts/check_inputs.py` now reads the state from `00_config.R`, because it hardcoded Louisiana and would have failed Wyoming. `main`'s 2026-11-25 entry is placed below in date order, verbatim. Two items `docs/verification.md` recorded as open are now addressed on this branch: the full-data Louisiana rerun has been done, and the equalisation headlines have manifest fields. The GROUPQ/NOVEH conflict is still open. Both state chains and `main`'s tests were rerun after the merge.
 
 **2026-11-26 (second entry) — WP1 replicated on Wyoming. Gate 100% on both halves; Louisiana still reproduces; §1, §2, §3, §5 and §6 change.**
 
@@ -207,6 +225,19 @@ This document and `docs/STATUS.md` in the repository had quietly become two diff
 
 **Housekeeping owed.** §7 now carries three 2026-08-23 entries and this file is past 6,000 words against §0 rule 5's ~2,500-word guideline. Archiving all three 2026-08-23 entries to `claude/STATUS-archive-2026-08.md` is the next structural move and would bring §0–§6 back to roughly its intended size; it was already named as the next move in the 2026-08-23 entry and is now more overdue, not less.
 
+
+**2026-11-25 — Presentation and reproduction-entry repairs; no scientific result changed.**
+
+Authorized direct commits by the researcher for employer presentation. Rewrote
+README and input layout, repaired runner/Makefile paths and missing-reference
+handling, replaced nonexistent checksum verification with explicitly scoped
+current-file fingerprints, and added comparison/boundary checks. Repaired the
+truncated findings landing page while preserving its prior contents verbatim.
+New case study uses only manifest-traceable values. R and source data were not
+available in the cleanup environment; no full-data rerun is claimed. The GROUPQ
+and NOVEH ratios differ between historical prose and manifest; equalisation
+headlines lack direct manifest fields. Both are recorded as unresolved in
+`docs/verification.md`; no choice of numbers or baseline change was made.
 
 **2026-11-23 — Fifth automated literature scan. No status changed, no §2 number touched, no decision closed.**
 

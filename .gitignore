@@ -41,3 +41,7 @@ analysis/*/outputs-rerun/
 scratch/
 tmp/
 *.log
+
+# Python standard-library reproduction helpers
+__pycache__/
+*.py[cod]

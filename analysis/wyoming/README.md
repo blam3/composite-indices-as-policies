@@ -10,7 +10,7 @@ STATE_FIPS <- "56"
 STATE_NAME <- "Wyoming"
 ```
 
-Inputs (fetched, not versioned; checksums in `INPUT-CHECKSUMS.sha256`):
+Inputs (fetched, not versioned; `run_all.sh` records current-file fingerprints in `outputs-rerun/INPUT-FINGERPRINTS.json`):
 
 - `data/raw/<table>_56.csv.zip` × 16 from
   `https://www2.census.gov/programs-surveys/acs/replicate_estimates/2022/data/5-year/140/`
