@@ -1,4 +1,4 @@
-"""Check staged Louisiana inputs and record fingerprints for this run.
+"""Check a state's staged inputs and record fingerprints for this run.
 
 Hashes describe the current local files. No historical/source checksum baseline
 is supplied, so these fingerprints do not authenticate the files or establish
@@ -8,15 +8,30 @@ import argparse
 import csv
 import hashlib
 import json
+import re
 from pathlib import Path
 
 TABLES = "B01001 B01003 B03002 B11012 B15002 B16005 B18101 B23025 B25003 B25014 B25024 B25044 B25106 B26001 B27001 C17002".split()
 
 
+def state_of(root):
+    """STATE_FIPS and STATE_NAME from the state's own 00_config.R.
+
+    Louisiana is the default so a root without a config (the unit test's empty
+    temporary directory) still reports every missing input.
+    """
+    config = root / "code" / "00_config.R"
+    text = config.read_text() if config.is_file() else ""
+    fips = re.search(r'^STATE_FIPS\s*<-\s*"(\d+)"', text, re.M)
+    name = re.search(r'^STATE_NAME\s*<-\s*"([^"]+)"', text, re.M)
+    return (fips.group(1) if fips else "22"), (name.group(1) if name else "Louisiana")
+
+
 def inspect_inputs(root):
     records, errors = [], []
-    files = [(f"data/raw/140/{t}_22.csv", {"GEOID", "ORDER", "ESTIMATE", *[f"Var_Rep{i}" for i in range(1, 81)]}) for t in TABLES]
-    files.append(("data/raw/Louisiana.csv", {"FIPS", "RPL_THEMES"}))
+    fips, name = state_of(root)
+    files = [(f"data/raw/140/{t}_{fips}.csv", {"GEOID", "ORDER", "ESTIMATE", *[f"Var_Rep{i}" for i in range(1, 81)]}) for t in TABLES]
+    files.append((f"data/raw/{name}.csv", {"FIPS", "RPL_THEMES"}))
     for relative, required in files:
         path = root / relative
         if not path.is_file():
@@ -38,7 +53,7 @@ def inspect_inputs(root):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("root", type=Path, help="analysis/louisiana directory")
+    parser.add_argument("root", type=Path, help="analysis/<state> directory")
     args = parser.parse_args()
     records, errors = inspect_inputs(args.root)
     if errors:
