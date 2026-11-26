@@ -5,7 +5,7 @@ source(file.path(Sys.getenv("SVI_ROOT", ".."), "code", "00_config.R"))
 suppressPackageStartupMessages(library(data.table))
 VAL <- c("ESTIMATE", paste0("Var_Rep", 1:80))
 chk <- function(tbl) {
-  d <- fread(file.path(DIR_RAW, sprintf("%s_22.csv", tbl)),
+  d <- fread(VRT_FILE(tbl),
              select = c("GEOID","ORDER","ESTIMATE","MOE","SE", paste0("Var_Rep",1:80)),
              showProgress = FALSE)
   d <- d[!is.na(ORDER)]

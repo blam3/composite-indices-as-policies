@@ -149,8 +149,8 @@ cat("               crosses county lines.\n")
 cat("\nOdds ratios per 1 SD (point estimates; treat as descriptive):\n")
 print(round(exp(coef(g)[keepc][-1]), 4))
 
-cat("\nAmong the 200 tracts closest to the top-decile cutoff:\n")
-n200 <- d[order(dist_tau)][1:200]
+n200 <- head(d[order(dist_tau)], 200)   # every tract when the state has fewer than 200
+cat(sprintf("\nAmong the %d tracts closest to the top-decile cutoff:\n", nrow(n200)))
 for (v in c("pov","minority","log_dens")) {
   hi <- n200[[v]] > median(n200[[v]])
   cat(sprintf("  %-9s above-median %.3f  vs below-median %.3f  (mean flip rate)\n",

@@ -135,7 +135,7 @@ hdr("4. THE PRECISION THAT DOES SURVIVE: raw input noise -> rank noise")
 ## ---------------------------------------------------------------------------
 cat("\nA tract-level index of raw input imprecision (mean SE across the 16 EP,\n")
 cat("standardised within variable), against subgroup and against rank SD.\n")
-cat("County-clustered SEs; these are DESCRIPTIVE Louisiana associations.\n")
+cat("County-clustered SEs; these are DESCRIPTIVE", STATE_NAME, "associations.\n")
 d[, imprecision := imp_a]
 report(lm(imprecision ~ z(EP_POV150) + z(EP_MINRTY) + z(log(E_TOTPOP)) +
             z(log(E_TOTPOP/AREA_SQMI)), data = d), d$COUNTY)

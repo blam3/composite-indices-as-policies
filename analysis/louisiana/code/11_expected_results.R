@@ -85,7 +85,7 @@ mc <- list(
 )
 
 deterministic <- list(
-  meta = list(state="Louisiana", state_fips="22", acs="2018-2022 5-year VRT, summary level 140",
+  meta = list(state=STATE_NAME, state_fips=STATE_FIPS, acs="2018-2022 5-year VRT, summary level 140",
               svi_edition="CDC/ATSDR SVI 2022",
               n_tracts_vrt=length(inp$fips), n_tracts_cdc=nrow(cdc),
               n_tracts_dropped_water=length(inp$fips)-nrow(cdc), n_components=ncol(inp$NUM),
@@ -123,7 +123,15 @@ monte_carlo <- list(
     r2_rankposition_equalised = summary(lm(sd_equal  ~ ns(rpl0,6), data=as.data.table(P$equalisation)))$r.squared,
     decile_profile_correlation = local({
       E <- as.data.table(P$equalisation); q <- cut(E$rpl0, seq(0,1,.1), include.lowest=TRUE)
-      cor(as.numeric(tapply(E$sd_actual,q,mean)), as.numeric(tapply(E$sd_equal,q,mean))) })),
+      cor(as.numeric(tapply(E$sd_actual,q,mean)), as.numeric(tapply(E$sd_equal,q,mean))) }),
+    ## Added 2026-11-26 so the decile profile, the top-decile noise ratio and
+    ## the equalised leaver rate quoted in prose trace to the manifest.
+    decile_mean_sd_actual    = P$decile_actual,
+    decile_mean_sd_equalised = P$decile_equal,
+    top_decile_noise_ratio_actual_over_equalised =
+      P$decile_actual[length(P$decile_actual)] / P$decile_equal[length(P$decile_equal)]),
+  decisions_ep_actual    = list(top_decile=churn_metrics(epa, .90)),
+  decisions_ep_equalised = list(top_decile=churn_metrics(epq, .90)),
   assumption_free_check = list(
     median_sd_from_80_replicates = median(s$sd_rep80[is.finite(s$rpl0)], na.rm=TRUE),
     median_sd_from_gaussian_draws = median(rp$sd_rpl),
@@ -137,7 +145,7 @@ monte_carlo <- list(
     flip_glm_odds_ratios = as.list(round(exp(coef(gg)[!grepl("^ns\\(|Intercept",names(coef(gg)))]),4)),
     cor_imprecision_ranksd = cor(d$imprecision, d$sd_rpl),
     partial_cor_given_rank_position = cor(resid(lm(imprecision~ns(rpl0,6),data=d)), resid(lm(sd_rpl~ns(rpl0,6),data=d))),
-    inference_note = paste("Coefficients are DESCRIPTIVE associations for Louisiana 2022.",
+    inference_note = paste("Coefficients are DESCRIPTIVE associations for", STATE_NAME, "2022.",
                            "Naive p-values are not reported; see se_cluster (county-clustered CR1)",
                            "and se_drawblock (block bootstrap over draws) in 08's output."),
     se_drawblock = as.list(round(INF$boot_se[!grepl("^ns\\(", names(INF$boot_se))], 6)),

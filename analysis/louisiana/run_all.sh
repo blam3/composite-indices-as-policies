@@ -43,11 +43,15 @@ fi
 
 echo "== unpacking raw VRT files =="
 mkdir -p data/raw/140
+shopt -s nullglob                     # a state staged as bare CSVs has no zips
 for f in data/raw/*.zip; do unzip -oq "$f" -d data/raw/; done
+shopt -u nullglob
 ls data/raw/140/*.csv | wc -l
 
 echo "== verifying input checksums =="
-( cd data/raw && shasum -a 256 -c INPUT-CHECKSUMS.sha256 2>/dev/null || sha256sum -c INPUT-CHECKSUMS.sha256 )
+# Kept at the state root, not under data/, because data/ is never committed.
+[ -f INPUT-CHECKSUMS.sha256 ] || { echo "MISSING INPUT-CHECKSUMS.sha256"; exit 2; }
+shasum -a 256 -c INPUT-CHECKSUMS.sha256 2>/dev/null || sha256sum -c INPUT-CHECKSUMS.sha256
 
 echo "== 01 build estimates =="        ; Rscript code/01_build_estimates.R
 echo "== 02 validate counts =="        ; Rscript code/02_validate_estimates.R
@@ -64,7 +68,7 @@ echo
 echo "== DIFF: your run vs the claimed results =="
 python3 - <<'PY'
 import json, math, sys
-a = json.load(open('EXPECTED-RESULTS.json'))                # claimed
+a = json.load(open('results/EXPECTED-RESULTS.json'))        # claimed
 b = json.load(open('outputs-rerun/EXPECTED-RESULTS.json'))  # yours
 
 # AUDIT item 2: the top level of the manifest separates fields that MUST match
