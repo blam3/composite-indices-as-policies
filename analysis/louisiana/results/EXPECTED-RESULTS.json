@@ -43,7 +43,7 @@
     "meta": {
       "B_draws": 5000,
       "seed": 20260818,
-      "R_version": "R version 4.3.3 (2024-02-29)",
+      "R_version": "R version 4.5.2 (2025-10-31)",
       "designs": {}
     },
     "rank_stability": {
@@ -179,7 +179,38 @@
       "median_sd_ep_equalised": 0.08079463,
       "r2_rankposition_actual": 0.61343902,
       "r2_rankposition_equalised": 0.71332117,
-      "decile_profile_correlation": 0.93458424
+      "decile_profile_correlation": 0.93458424,
+      "decile_mean_sd_actual": [0.036286, 0.07351336, 0.09126666, 0.10516908, 0.10906523, 0.11282931, 0.11250419, 0.10019421, 0.08806806, 0.05303928],
+      "decile_mean_sd_equalised": [0.03894597, 0.07422554, 0.0876809, 0.09858469, 0.09980181, 0.09955966, 0.09335514, 0.07911915, 0.06495892, 0.03385133],
+      "top_decile_noise_ratio_actual_over_equalised": 1.56682998
+    },
+    "decisions_ep_actual": {
+      "top_decile": {
+        "tau": 0.9,
+        "n_funded": 137,
+        "expected_leavers": 34.3086,
+        "leaver_rate": 0.25042774,
+        "expected_entrants": 34.302,
+        "expected_label_changes": 68.6106,
+        "mean_flip": 0.05026418,
+        "funded_p_lt_090": 98,
+        "unfunded_p_gt_010": 120,
+        "funded_interval_crosses": 108
+      }
+    },
+    "decisions_ep_equalised": {
+      "top_decile": {
+        "tau": 0.9,
+        "n_funded": 137,
+        "expected_leavers": 27.6858,
+        "leaver_rate": 0.20208613,
+        "expected_entrants": 27.6774,
+        "expected_label_changes": 55.3632,
+        "mean_flip": 0.04055912,
+        "funded_p_lt_090": 78,
+        "unfunded_p_gt_010": 98,
+        "funded_interval_crosses": 91
+      }
     },
     "assumption_free_check": {
       "median_sd_from_80_replicates": 0.0892231,

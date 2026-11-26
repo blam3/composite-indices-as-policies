@@ -1,0 +1,278 @@
+{
+  "deterministic": {
+    "meta": {
+      "state": "Wyoming",
+      "state_fips": "56",
+      "acs": "2018-2022 5-year VRT, summary level 140",
+      "svi_edition": "CDC/ATSDR SVI 2022",
+      "n_tracts_vrt": 160,
+      "n_tracts_cdc": 160,
+      "n_tracts_dropped_water": 0,
+      "n_components": 19,
+      "n_svi_inputs": 16
+    },
+    "reproduction": {
+      "values_compared": 6678,
+      "values_exact": 6678,
+      "pct_exact": 100,
+      "cells_compared": 6720,
+      "missingness_match": 6720,
+      "values_ok": true,
+      "missing_ok": true
+    },
+    "se_ratio_povQ5_over_povQ1": {
+      "POV150": 2.5853,
+      "UNEMP": 1.5662,
+      "HBURD": 1.2608,
+      "NOHSDP": 1.7706,
+      "UNINSUR": 1.3556,
+      "AGE65": 0.8219,
+      "AGE17": 1.0429,
+      "DISABL": 1.1438,
+      "SNGPNT": 1.6334,
+      "LIMENG": 1.0786,
+      "MINRTY": 1.2117,
+      "MUNIT": 2.5439,
+      "MOBILE": 1.2851,
+      "CROWD": 0.7367,
+      "NOVEH": 2.0949,
+      "GROUPQ": 2.7755
+    }
+  },
+  "monte_carlo": {
+    "meta": {
+      "B_draws": 5000,
+      "seed": 20260818,
+      "R_version": "R version 4.5.2 (2025-10-31)",
+      "designs": {}
+    },
+    "rank_stability": {
+      "replicate": {
+        "median_sd": 0.11127271,
+        "median_ci90_width": 0.361115,
+        "frac_ci90_gt_20pts": 0.86163522,
+        "frac_ci90_gt_40pts": 0.35220126
+      },
+      "within_tract": {
+        "median_sd": 0.11080554,
+        "median_ci90_width": 0.3608,
+        "frac_ci90_gt_20pts": 0.86163522,
+        "frac_ci90_gt_40pts": 0.35220126
+      },
+      "no_cov": {
+        "median_sd": 0.0996393,
+        "median_ci90_width": 0.3228,
+        "frac_ci90_gt_20pts": 0.81132075,
+        "frac_ci90_gt_40pts": 0.25786164
+      },
+      "replicate_minclamp": {
+        "median_sd": 0.11396869,
+        "median_ci90_width": 0.36742,
+        "frac_ci90_gt_20pts": 0.87421384,
+        "frac_ci90_gt_40pts": 0.3836478
+      },
+      "ep_actual": {
+        "median_sd": 0.11234808,
+        "median_ci90_width": 0.3671,
+        "frac_ci90_gt_20pts": 0.85534591,
+        "frac_ci90_gt_40pts": 0.36477987
+      },
+      "ep_equalised": {
+        "median_sd": 0.09998325,
+        "median_ci90_width": 0.3228,
+        "frac_ci90_gt_20pts": 0.79874214,
+        "frac_ci90_gt_40pts": 0.22641509
+      }
+    },
+    "decisions_replicate": {
+      "top_decile": {
+        "tau": 0.9,
+        "n_funded": 16,
+        "expected_leavers": 4.2622,
+        "leaver_rate": 0.2663875,
+        "expected_entrants": 4.2504,
+        "expected_label_changes": 8.5126,
+        "mean_flip": 0.05353836,
+        "funded_p_lt_090": 12,
+        "unfunded_p_gt_010": 13,
+        "funded_interval_crosses": 13
+      },
+      "top_quintile": {
+        "tau": 0.8,
+        "n_funded": 32,
+        "expected_leavers": 6.4456,
+        "leaver_rate": 0.201425,
+        "expected_entrants": 6.4246,
+        "expected_label_changes": 12.8702,
+        "mean_flip": 0.08094465,
+        "funded_p_lt_090": 20,
+        "unfunded_p_gt_010": 24,
+        "funded_interval_crosses": 24
+      },
+      "top_quartile": {
+        "tau": 0.75,
+        "n_funded": 40,
+        "expected_leavers": 8.101,
+        "leaver_rate": 0.202525,
+        "expected_entrants": 8.0778,
+        "expected_label_changes": 16.1788,
+        "mean_flip": 0.10175346,
+        "funded_p_lt_090": 22,
+        "unfunded_p_gt_010": 26,
+        "funded_interval_crosses": 28
+      }
+    },
+    "decisions_within_tract": {
+      "top_decile": {
+        "tau": 0.9,
+        "n_funded": 16,
+        "expected_leavers": 4.2484,
+        "leaver_rate": 0.265525,
+        "expected_entrants": 4.2374,
+        "expected_label_changes": 8.4858,
+        "mean_flip": 0.05336981,
+        "funded_p_lt_090": 12,
+        "unfunded_p_gt_010": 13,
+        "funded_interval_crosses": 13
+      }
+    },
+    "decisions_no_cov": {
+      "top_decile": {
+        "tau": 0.9,
+        "n_funded": 16,
+        "expected_leavers": 3.8336,
+        "leaver_rate": 0.2396,
+        "expected_entrants": 3.8212,
+        "expected_label_changes": 7.6548,
+        "mean_flip": 0.0481434,
+        "funded_p_lt_090": 10,
+        "unfunded_p_gt_010": 12,
+        "funded_interval_crosses": 12
+      }
+    },
+    "decisions_replicate_minclamp": {
+      "top_decile": {
+        "tau": 0.9,
+        "n_funded": 16,
+        "expected_leavers": 4.3308,
+        "leaver_rate": 0.270675,
+        "expected_entrants": 4.319,
+        "expected_label_changes": 8.6498,
+        "mean_flip": 0.05440126,
+        "funded_p_lt_090": 12,
+        "unfunded_p_gt_010": 13,
+        "funded_interval_crosses": 13
+      }
+    },
+    "covariance_decomposition": {
+      "median_sd_replicate": 0.11127271,
+      "median_sd_within_tract": 0.11080554,
+      "median_sd_no_cov": 0.0996393,
+      "ratio_crosstract_term": 1.00421612,
+      "ratio_withintract_term": 1.11206662,
+      "frac_gt40_replicate": 0.35220126,
+      "frac_gt40_within_tract": 0.35220126,
+      "frac_gt40_no_cov": 0.25786164
+    },
+    "equalisation_experiment": {
+      "median_sd_ep_actual": 0.11234808,
+      "median_sd_ep_equalised": 0.09998325,
+      "r2_rankposition_actual": 0.66164906,
+      "r2_rankposition_equalised": 0.78722605,
+      "decile_profile_correlation": 0.95048949,
+      "decile_mean_sd_actual": [0.05010021, 0.09044064, 0.09637603, 0.1309077, 0.13534426, 0.13802842, 0.13758629, 0.13273371, 0.11415866, 0.05921641],
+      "decile_mean_sd_equalised": [0.05167138, 0.08189052, 0.09528972, 0.11946411, 0.12202744, 0.12383103, 0.12293162, 0.11558941, 0.07871394, 0.0388646],
+      "top_decile_noise_ratio_actual_over_equalised": 1.52365928
+    },
+    "decisions_ep_actual": {
+      "top_decile": {
+        "tau": 0.9,
+        "n_funded": 16,
+        "expected_leavers": 4.3316,
+        "leaver_rate": 0.270725,
+        "expected_entrants": 4.3212,
+        "expected_label_changes": 8.6528,
+        "mean_flip": 0.05442013,
+        "funded_p_lt_090": 12,
+        "unfunded_p_gt_010": 15,
+        "funded_interval_crosses": 13
+      }
+    },
+    "decisions_ep_equalised": {
+      "top_decile": {
+        "tau": 0.9,
+        "n_funded": 16,
+        "expected_leavers": 3.6064,
+        "leaver_rate": 0.2254,
+        "expected_entrants": 3.594,
+        "expected_label_changes": 7.2004,
+        "mean_flip": 0.04528553,
+        "funded_p_lt_090": 10,
+        "unfunded_p_gt_010": 13,
+        "funded_interval_crosses": 11
+      }
+    },
+    "assumption_free_check": {
+      "median_sd_from_80_replicates": 0.11754159,
+      "median_sd_from_gaussian_draws": 0.11127271,
+      "correlation_across_tracts": 0.91683337
+    },
+    "subgroup_models": {
+      "unconditional_sd_model_r2": 0.04151268,
+      "unconditional_coefs": {
+        "(Intercept)": 0.107812,
+        "z(EP_POV150)": -0.000014,
+        "z(EP_MINRTY)": -0.006473,
+        "z(EP_NOHSDP)": 0.000241,
+        "z(log(E_TOTPOP))": -0.004315,
+        "z(log(E_TOTPOP/AREA_SQMI))": 0.00551
+      },
+      "rank_position_only_r2": 0.65050462,
+      "rank_position_plus_covariates_r2": 0.69827644,
+      "conditional_coefs": {
+        "(Intercept)": 0.020597,
+        "z(EP_POV150)": -0.006848,
+        "z(EP_MINRTY)": -0.002939,
+        "z(log(E_TOTPOP))": -0.006769
+      },
+      "flip_glm_odds_ratios": {
+        "z(EP_POV150)": 0.9255,
+        "z(EP_MINRTY)": 0.8401,
+        "z(EP_NOHSDP)": 0.8852,
+        "z(log(E_TOTPOP))": 0.911,
+        "z(log(E_TOTPOP/AREA_SQMI))": 1.1889
+      },
+      "cor_imprecision_ranksd": 0.27253862,
+      "partial_cor_given_rank_position": 0.54244357,
+      "inference_note": "Coefficients are DESCRIPTIVE associations for Wyoming 2022. Naive p-values are not reported; see se_cluster (county-clustered CR1) and se_drawblock (block bootstrap over draws) in 08's output.",
+      "se_drawblock": {
+        "(Intercept)": 0.012435,
+        "z(pov)": 0.008174,
+        "z(minority)": 0.005691,
+        "z(nohs)": 0.006128,
+        "z(log_pop)": 0.006033,
+        "z(log_dens)": 0.007633
+      },
+      "se_cluster_flip_glm": {
+        "(Intercept)": 0.162079,
+        "z(pov)": 0.208524,
+        "z(minority)": 0.067826,
+        "z(nohs)": 0.086454,
+        "z(log_pop)": 0.075682,
+        "z(log_dens)": 0.104611
+      }
+    },
+    "monte_carlo_error": {
+      "per_tract_flip_se_upper_bound": 0.00707107,
+      "retained_draws_min": 5000,
+      "retained_draws_median": 5000,
+      "retained_draws_max": 5000,
+      "per_tract_flip_se_worst_case_retained": 0.00707107,
+      "expected_leavers_top_decile": 4.2622,
+      "expected_leavers_mc_se_blocked": 0.0220876,
+      "expected_leavers_mc_se_naive_iid": 0.01734446,
+      "n_blocks": 10,
+      "note": "0.5/sqrt(B) is an UPPER bound on a per-tract Monte Carlo SE for a tract retaining all B draws (draws are iid; the shared z is WITHIN a draw, across tracts, not across draws). Tracts losing draws to a zero denominator have a larger bound, given here. For cross-tract aggregates such as the expected leaver count, tracts within a draw are correlated, so the MC SE is estimated by variation across blocks of draws; the iid figure is shown for contrast."
+    }
+  }
+}

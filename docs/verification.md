@@ -46,3 +46,23 @@ Stage the source inputs using `data/README.md`, install R dependencies, then run
 `bash analysis/louisiana/run_all.sh`. Retain fingerprints, package versions,
 console output, and fresh outputs. Investigate failures; do not alter the
 reference or tolerance just to obtain a pass.
+
+## Update — 2026-11-26 (branch `wp1/wyoming-replication`)
+
+- **Full-data Louisiana rerun done.** `bash analysis/louisiana/run_all.sh` ran
+  end to end on R 4.5.2 with the inputs staged per `data/README.md`. The gate
+  reports 57,368/57,368 values and 57,918/57,918 missingness cells. Deterministic
+  fields match exactly, and the Monte Carlo fields are bit-identical to the
+  committed manifest. It was rerun again after merging `main`'s runner.
+- **The equalisation provenance is extended.** `11_expected_results.R` now emits
+  `equalisation_experiment.decile_mean_sd_actual` / `_equalised`,
+  `top_decile_noise_ratio_actual_over_equalised` (Louisiana 1.567) and
+  `decisions_ep_actual` / `decisions_ep_equalised` (top-decile leaver rate 25.0%
+  → 20.2%). No pre-existing manifest field changed; this was checked leaf by leaf.
+- **GROUPQ/NOVEH corrected.** The rerun recomputes the manifest's 3.0884 and
+  2.9342 from the staged inputs as exact deterministic fields. `STATUS.md` §2
+  now carries 3.09 and 2.93, on the researcher's instruction. No script in the
+  repository produces the old 2.62/2.51, so their origin is unknown.
+- **Second state.** Wyoming runs through the same runner and checks, with only
+  `STATE_FIPS`/`STATE_NAME` changed. `scripts/check_inputs.py` now reads both
+  from the state's `00_config.R`. See `docs/wp1-wyoming-findings.md`.

@@ -1,7 +1,7 @@
 ## ---------------------------------------------------------------------------
 ## 01_build_estimates.R
-## Assemble CDC/ATSDR SVI 2022 inputs for Louisiana census tracts from the
-## ACS 2018-2022 5-year Variance Replicate Tables (summary level 140, state 22).
+## Assemble CDC/ATSDR SVI 2022 inputs for STATE_NAME census tracts from the
+## ACS 2018-2022 5-year Variance Replicate Tables (summary level 140, STATE_FIPS).
 ##
 ## The 16 SVI percentages are built from 19 "components": a numerator (a set of
 ## lines from one detailed table) over a denominator. Thirteen variables are a
@@ -21,7 +21,7 @@ RAW <- DIR_RAW
 VALCOLS <- c("ESTIMATE", paste0("Var_Rep", 1:80))
 
 read_vrt <- function(tbl) {
-  d <- fread(file.path(RAW, sprintf("%s_22.csv", tbl)),
+  d <- fread(VRT_FILE(tbl),
              select = c("GEOID", "ORDER", VALCOLS), showProgress = FALSE)
   d <- d[!is.na(ORDER)]
   d[, fips := substr(GEOID, 10, 20)]
