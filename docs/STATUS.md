@@ -191,6 +191,10 @@ Six simulation designs: `replicate`, `within_tract`, `no_cov`, `replicate_mincla
 
 *Append only. Never edit or delete an entry — correct a wrong entry with a new one. Entries before 2026-08-23 have been moved verbatim to `claude/STATUS-archive-2026-08.md` under §0 rule 5; that file is append-only too.*
 
+**2026-11-26 (fifth entry) — `docs/wp1-louisiana-findings.md` restored as the full WP1 Louisiana report, on the researcher's instruction. No number changed.**
+
+`main`'s 2026-11-25 cleanup had replaced this path with a short landing page pointing to `docs/case-study.md`. The researcher's full report, revised 19 August, had sat uncommitted in the working tree and now occupies the path again, so §1 and §5, which name it as WP1's primary artifact, point at the full report. `docs/case-study.md`, `docs/verification.md` and `docs/archive/wp1-louisiana-findings-before-cleanup.md` are unchanged. Its closing "Next" list predates the line-number verification and the Wyoming replication, which have since discharged its items 0 and 1. It is left as written because it is dated.
+
 **2026-11-26 (fourth entry) — §2's GROUPQ and NOVEH SE ratios corrected from 2.62 and 2.51 to 3.09 and 2.93. §6 researcher item 1 closed, on the researcher's instruction.**
 
 §2 now matches `deterministic.se_ratio_povQ5_over_povQ1` in `analysis/louisiana/results/EXPECTED-RESULTS.json` (GROUPQ 3.0884, NOVEH 2.9342) and `docs/wp1-louisiana-findings.md` (3.09, 2.93). The basis is stronger than a manifest lookup: the end-to-end rerun on 2026-11-26 recomputed these ratios from the staged inputs with the committed code, and they are deterministic fields that matched exactly. The other five ratios in that §2 line were already correct and are unchanged. Where 2.62 and 2.51 came from is not known — no script or manifest field in the repository produces them — so they are recorded as a transcription error of unknown origin rather than a competing estimand. The "two to three times the sampling error" wording in the WP1 claim still holds (seven ratios from 1.92 to 3.09). Earlier changelog entries that call this conflict open are left as written, per §0 rule 3.
