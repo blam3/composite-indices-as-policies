@@ -1,0 +1,55 @@
+name: R-CMD-check
+permissions:
+  contents: read
+
+# svichurn package: R CMD check --as-cran on ubuntu-latest, R release.
+#
+# Fails on any ERROR, WARNING or NOTE, with one exception that is matched
+# exactly rather than suppressed: --as-cran's "CRAN incoming feasibility" NOTE
+# saying "New submission", which every package not yet on CRAN receives. If
+# that NOTE carries anything else (a misspelling, a bad URL), it fails too.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  R-CMD-check:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: r-lib/actions/setup-pandoc@v2
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+          use-public-rspm: true
+      - name: HTML Tidy, for the Rd HTML validation check
+        run: sudo apt-get update && sudo apt-get install -y tidy
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::rcmdcheck, any::V8
+          needs: check
+      - name: R CMD check --as-cran
+        run: |
+          Rscript -e '
+            r <- rcmdcheck::rcmdcheck(args = c("--no-manual", "--as-cran"),
+                                      build_args = "--no-manual",
+                                      error_on = "never", check_dir = "check")
+            known <- function(n) {
+              body <- trimws(strsplit(n, "\n")[[1]][-1])
+              body <- body[nzchar(body) & !grepl("^Maintainer:", body)]
+              grepl("^checking CRAN incoming feasibility", n) &&
+                identical(body, "New submission")
+            }
+            other <- r$notes[!vapply(r$notes, known, logical(1))]
+            cat(sprintf("errors %d, warnings %d, notes %d (%d other than New submission)\n",
+                        length(r$errors), length(r$warnings), length(r$notes), length(other)))
+            if (length(r$errors) || length(r$warnings) || length(other)) quit(status = 1)
+          '
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: r-cmd-check
+          path: check

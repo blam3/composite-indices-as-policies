@@ -97,5 +97,5 @@ Research repository maintained by Brendan Lam. The historical
 [audit response](docs/wp1-audit-response.md) records Codex and Claude assistance. Research conclusions should be
 reviewed independently before use in policy.
 
-Code: [MIT](LICENSE). Prose and figures: [CC BY 4.0](LICENSE-docs).
+Code: [MIT](LICENSE.md). Prose and figures: [CC BY 4.0](LICENSE-docs).
 Citation metadata: [CITATION.cff](CITATION.cff).

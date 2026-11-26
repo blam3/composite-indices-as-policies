@@ -1,0 +1,22 @@
+Package: svichurn
+Title: Decision Churn of Thresholded Composite Indices Under Sampling Error
+Version: 0.1.0
+Authors@R: person("Brendan", "Lam", email = "brendannathanlam@hotmail.com",
+    role = c("aut", "cre"))
+Description: Propagates survey sampling error, represented by replicate
+    estimates, through a composite index that is normalised, weighted,
+    summed and thresholded, and reports for each unit the probability of
+    leaving or entering the funded set. Ships an exact implementation of the
+    Centers for Disease Control and Prevention / Agency for Toxic Substances
+    and Disease Registry Social Vulnerability Index 2022 aggregation rule.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports: stats
+Suggests: knitr, rmarkdown, testthat (>= 3.0.0)
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+URL: https://github.com/blam3/composite-indices-as-policies
+BugReports: https://github.com/blam3/composite-indices-as-policies/issues
+Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.1.1
