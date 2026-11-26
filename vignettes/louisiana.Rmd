@@ -1,0 +1,101 @@
+---
+title: "Louisiana SVI 2022: reproducing the headline churn numbers"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Louisiana SVI 2022: reproducing the headline churn numbers}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+This vignette recomputes the decision-churn numbers in section 2 of
+`docs/STATUS.md` from the frozen Louisiana fixture, and stops with an error if
+any of them differs from the committed results manifest
+(`analysis/louisiana/results/EXPECTED-RESULTS.json`,
+`monte_carlo$decisions_replicate`). The full analysis also reports interval
+widths, subgroup associations and the equalisation experiment; those stay in
+`analysis/` and are not reproduced here.
+
+## Inputs
+
+The fixture holds the 19 count-level components behind the 16 SVI 2022
+variables for the 1,379 tracts CDC publishes, as the point estimate plus the 80
+ACS variance replicates. Its provenance is recorded in
+`tests/testthat/test-louisiana.R`.
+
+```{r inputs}
+library(svichurn)
+cx <- readRDS("../tests/testthat/fixtures/la_counts.rds")
+dim(cx$NUM)
+table(cx$comp_var)[c("SNGPNT", "MUNIT", "CROWD")]   # the two-component variables
+```
+
+## The composite specification
+
+SVI 2022 is sixteen variables in four themes, each percentile-ranked, summed
+with unit weights within a theme, summed across themes, and percentile-ranked
+again. Writing it out is all it takes to point the function at a different
+index: change the variable list, the grouping, the weights or the threshold.
+
+```{r spec}
+svi_2022 <- list(
+  comp_var  = cx$comp_var,
+  themes    = list(
+    theme1 = c("POV150", "UNEMP", "HBURD", "NOHSDP", "UNINSUR"),
+    theme2 = c("AGE65", "AGE17", "DISABL", "SNGPNT", "LIMENG"),
+    theme3 = c("MINRTY"),
+    theme4 = c("MUNIT", "MOBILE", "CROWD", "NOVEH", "GROUPQ")),
+  aggregate = "rank",
+  threshold = c(0.90, 0.80, 0.75)        # top decile, quintile, quartile
+)
+```
+
+## Churn at B = 5,000
+
+The seed and RNG kind are those of `05_replicate_simulation.R`, whose first
+design is the one `composite_churn()` runs, so the draws are the same draws.
+
+```{r churn}
+RNGkind("Mersenne-Twister", "Inversion", "Rejection")
+set.seed(20260818)
+out <- composite_churn(cx$NUM, cx$DEN, svi_2022, B = 5000)
+ch <- attr(out, "churn")
+ch
+```
+
+Leavers and entrants are reported separately. Their sum is the symmetric
+difference between the published and the resampled funded sets; dividing it by
+the number funded double-counts every replacement and roughly doubles the
+churn rate. That error was made once in this project and withdrawn.
+
+```{r decile}
+d <- out[out$threshold == 0.90, ]
+c(funded_p_lt_090   = sum(d$funded0 & d$p_funded < 0.90),
+  unfunded_p_gt_010 = sum(!d$funded0 & d$p_funded > 0.10))
+```
+
+## Check against the manifest
+
+```{r check}
+manifest <- data.frame(   # EXPECTED-RESULTS.json, monte_carlo$decisions_replicate
+  threshold              = c(0.90, 0.80, 0.75),
+  n_funded               = c(137, 273, 342),
+  expected_leavers       = c(34.17352001, 51.21307818, 54.38169452),
+  leaver_rate            = c(0.24944175, 0.18759369, 0.1590108),
+  expected_entrants      = c(34.17896349, 51.2238778, 54.1436516),
+  expected_label_changes = c(68.3524835, 102.43695598, 108.52534612))
+stopifnot(isTRUE(all.equal(round(ch, 8), manifest, check.attributes = FALSE,
+                           tolerance = 0)),
+          sum(d$funded0 & d$p_funded < 0.90) == 99,
+          sum(!d$funded0 & d$p_funded > 0.10) == 120)
+```
+
+Every value agrees with the manifest to the eight decimals it records. In
+words: of the 137 tracts in Louisiana's published top decile, an expected
+34.2 (24.9%) would not be on the list if the survey were drawn again, and
+34.2 others would take their place. The leaver rate is 18.8% for the top
+quintile and 15.9% for the top quartile. All of these are descriptive
+statements about one state and one edition of the index.
